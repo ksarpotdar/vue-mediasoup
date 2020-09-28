@@ -1,12 +1,13 @@
-const http = require("http");
+const https = require("https");
 const { WebSocketServer } = require("protoo-server");
 const mediasoup = require("mediasoup");
 const ConfRoom = require("./lib/Room");
+fs = require('fs');
 
 (async () => {
   const worker = await mediasoup.createWorker({
     rtcMinPort: 3000,
-    rtcMaxPort: 4000
+    rtcMaxPort: 49999
   });
 
   worker.on("died", () => {
@@ -34,12 +35,20 @@ const ConfRoom = require("./lib/Room");
 
   const room = new ConfRoom(router);
 
-  const httpServer = http.createServer();
+  let key = './certs/key.pem';
+  let certificate = './certs/cert.pem';
+
+  const options = {
+    key: fs.readFileSync(key),
+    cert: fs.readFileSync(certificate),
+  };
+
+  const httpsServer = https.createServer(options);
   await new Promise(resolve => {
-    httpServer.listen(2345, "127.0.0.1", resolve);
+    httpsServer.listen(8085, "178.128.48.181", resolve);
   });
 
-  const wsServer = new WebSocketServer(httpServer);
+  const wsServer = new WebSocketServer(httpsServer);
   wsServer.on("connectionrequest", (info, accept) => {
     console.log(
       "protoo connection request [peerId:%s, address:%s, origin:%s]",
@@ -54,6 +63,6 @@ const ConfRoom = require("./lib/Room");
     });
   });
 
-  console.log("websocket server started on http://127.0.0.1:2345");
+  console.log("websocket server started on https://178.128.48.181:8085");
   setInterval(() => console.log("room stat", room.getStatus()), 1000 * 5);
 })();

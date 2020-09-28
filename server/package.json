@@ -6,6 +6,8 @@
     "start": "nodemon ./main.js ./lib"
   },
   "dependencies": {
+    "chalk": "^4.1.0",
+    "express": "^4.17.1",
     "mediasoup": "^3.1.1",
     "protoo-server": "^4.0.3"
   },

@@ -49,7 +49,6 @@ export default {
       console.log("receive consumer", consumer);
       const el = this.createMediaEl(track, peerId, id);
       this.$refs.remoteTracks.append(el);
-      console.log("beep: " + consumer);
     });
 
     this.room.on("@consumerClosed", ({ consumerId }) => {
@@ -106,29 +105,6 @@ export default {
           this.createMediaEl(displayTrack, "", producer.id)
         );
       }
-    },
-
-    peerJoined(peerId) {
-      console.log("new peer joined", peerId);
-    },
-    peerClosed(peerId) {
-      this.removeMediaEl(this.$refs.remoteTracks, "data-peer-id", peerId);
-    },
-    consumer(consumer) {
-      const {
-        id,
-        appData: { peerId },
-        track,
-      } = consumer;
-      console.log("receive consumer", consumer);
-      const el = this.createMediaEl(track, peerId, id);
-      this.$refs.remoteTracks.append(el);
-    },
-    consumerClosed(consumerId) {
-      this.removeMediaEl(this.$refs.remoteTracks, "data-search-id", consumerId);
-    },
-    producerClosed(producerId) {
-      this.removeMediaEl(this.$refs.localTracks, "data-search-id", producerId);
     },
 
     createMediaEl(track, peerId, searchId) {
