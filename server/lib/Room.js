@@ -135,7 +135,7 @@ class ConfRoom {
         const { producing, consuming } = request.data;
 
         const transport = await this._mediasoupRouter.createWebRtcTransport({
-          listenIps: [{ ip: "127.0.0.1" }],
+          listenIps: [{ ip: "178.128.48.181" }],
           appData: { producing, consuming }
         });
 

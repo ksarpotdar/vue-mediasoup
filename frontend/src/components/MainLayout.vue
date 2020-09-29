@@ -62,11 +62,13 @@ export default {
 
   methods: {
     async jsjointrigger() {
+      if (!this.isInRoom){
       this.room.join();
       this.room.once("@open", ({ peers }) => {
         console.log(`${peers.length} peers in this room.`);
         this.isInRoom = true;
       });
+      }
     },
 
     async jssendaudio() {

@@ -35,10 +35,11 @@ fs = require('fs');
 
   const room = new ConfRoom(router);
 
-  let key = './certs/key.pem';
-  let certificate = './certs/cert.pem';
+  let key = './certs/privkey.pem';
+  let certificate = './certs/fullchain.pem';
 
   const options = {
+    rejectUnauthorized: false,
     key: fs.readFileSync(key),
     cert: fs.readFileSync(certificate),
   };
@@ -46,6 +47,7 @@ fs = require('fs');
   const httpsServer = https.createServer(options);
   await new Promise(resolve => {
     httpsServer.listen(8085, "178.128.48.181", resolve);
+    console.log(httpsServer);
   });
 
   const wsServer = new WebSocketServer(httpsServer);
