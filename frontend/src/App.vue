@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainLayout msg="Mediasoup Vue Demo" />
+    <MainLayout msg="Mediasoup Demo" />
   </div>
 </template>
 
