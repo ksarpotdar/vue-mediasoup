@@ -225,6 +225,46 @@ class ConfRoom {
         break;
       }
 
+      case 'pauseProducer':
+			{
+        console.log('pauseProducer')
+				// Ensure the Peer is joined.
+				if (!peer.data.joined)
+					throw new Error('Peer not yet joined');
+
+				const { producerId } = request.data;
+				const producer = peer.data.producers.get(producerId);
+
+				if (!producer)
+					throw new Error(`producer with id "${producerId}" not found`);
+
+				await producer.pause();
+
+				accept();
+
+				break;
+			}
+
+			case 'resumeProducer':
+			{
+        console.log('resumeProducer')
+				// Ensure the Peer is joined.
+				if (!peer.data.joined)
+					throw new Error('Peer not yet joined');
+
+				const { producerId } = request.data;
+				const producer = peer.data.producers.get(producerId);
+
+				if (!producer)
+					throw new Error(`producer with id "${producerId}" not found`);
+
+				await producer.resume();
+
+				accept();
+
+				break;
+			}
+
       default: {
         console.log('unknown request.method "%s"', request.method);
         reject(500, `unknown request.method "${request.method}"`);

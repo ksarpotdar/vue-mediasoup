@@ -2,12 +2,12 @@ const https = require("https");
 const { WebSocketServer } = require("protoo-server");
 const mediasoup = require("mediasoup");
 const ConfRoom = require("./lib/Room");
-fs = require('fs');
+fs = require("fs");
 
 (async () => {
   const worker = await mediasoup.createWorker({
     rtcMinPort: 3000,
-    rtcMaxPort: 49999
+    rtcMaxPort: 49999,
   });
 
   worker.on("died", () => {
@@ -22,21 +22,21 @@ fs = require('fs');
         name: "opus",
         mimeType: "audio/opus",
         clockRate: 48000,
-        channels: 2
+        channels: 2,
       },
       {
         kind: "video",
         name: "VP8",
         mimeType: "video/VP8",
-        clockRate: 90000
-      }
-    ]
+        clockRate: 90000,
+      },
+    ],
   });
 
   const room = new ConfRoom(router);
 
-  let key = './certs/privkey.pem';
-  let certificate = './certs/fullchain.pem';
+  let key = "./certs/privkey.pem";
+  let certificate = "./certs/fullchain.pem";
 
   const options = {
     rejectUnauthorized: false,
@@ -45,7 +45,7 @@ fs = require('fs');
   };
 
   const httpsServer = https.createServer(options);
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     httpsServer.listen(8085, "178.128.48.181", resolve);
     console.log(httpsServer);
   });
@@ -61,7 +61,7 @@ fs = require('fs');
     room.handlePeerConnect({
       // to be more and more strict
       peerId: `p${String(Math.random()).slice(2)}`,
-      protooWebSocketTransport: accept()
+      protooWebSocketTransport: accept(),
     });
   });
 
